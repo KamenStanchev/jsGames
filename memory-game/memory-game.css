@@ -1,3 +1,19 @@
 body{
     background-color: gray;
 }
+
+#grid{
+    width: 400px;
+    height: 300px;
+    display: flex;
+    flex-wrap: wrap;
+}
+
+#new-game{
+    border: 1px black solid;
+    background-color: lightgreen;
+}
+
+#new-game:hover{
+    background-color: darkgreen;    
+}
