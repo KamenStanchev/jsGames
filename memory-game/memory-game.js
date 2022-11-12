@@ -74,7 +74,8 @@ createBoard()
 
 function refreshPage(){
     window.location.reload();
-} 
+}
+
 
 function checkMatch(){
     const cards = document.querySelectorAll('#grid img')
