@@ -60,7 +60,7 @@ let result = 0
 
 
 function createBoard() {
-    for (let i=0; i<12; i++) {
+    for (let i = 0; i < 12; i++) {
         const card = document.createElement('img')
         card.setAttribute('src', 'images/blank.png')
         card.setAttribute('data-id', i)
@@ -72,37 +72,37 @@ function createBoard() {
 
 createBoard()
 
-function refreshPage(){
-    window.location.reload();
+function refreshPage() {
+    window.location.reload()
 }
 
 
-function checkMatch(){
+function checkMatch() {
     const cards = document.querySelectorAll('#grid img')
 
-    if(cardsChosen[0] == cardsChosen[1]) {
+    if (cardsChosen[0] == cardsChosen[1]) {
         alert('Super! You match same cards')
 
         cards[cardsChosenId[0]].setAttribute('src', 'images/white.png')
         cards[cardsChosenId[0]].removeEventListener('click', flipCard)
-        
+
         cards[cardsChosenId[1]].setAttribute('src', 'images/white.png')
         cards[cardsChosenId[1]].removeEventListener('click', flipCard)
         result += 1
     }
 
-    if(cardsChosen[0] != cardsChosen[1]){
+    if (cardsChosen[0] != cardsChosen[1]) {
         alert('So sorry, there is not match')
         cards[cardsChosenId[0]].setAttribute('src', 'images/blank.png')
         cards[cardsChosenId[1]].setAttribute('src', 'images/blank.png')
-        }
+    }
     while (cardsChosen.length > 0) {
-        cardsChosen.pop();
+        cardsChosen.pop()
     }
     while (cardsChosenId.length > 0) {
-        cardsChosenId.pop();
+        cardsChosenId.pop()
     }
-    if(result === cardsArray.length/2) {
+    if (result === cardsArray.length / 2) {
         result = 'Congratulation! You win!'
     }
 
@@ -116,7 +116,7 @@ function flipCard() {
 
     this.setAttribute('src', cardsArray[cardId].img)
 
-    if(cardsChosen.length === 2){
+    if (cardsChosen.length === 2) {
         setTimeout(checkMatch, 500)
     }
 }
