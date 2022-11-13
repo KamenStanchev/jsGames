@@ -8,6 +8,7 @@
 .square{
     width: 200px;
     height: 200px;
+    background-color: blanchedalmond;
     border: 1px black solid;
 }
 
@@ -15,3 +16,10 @@
     background-image: url('images/mole.png');
     background-size: cover;
 }
+
+.hit-mole{
+    background-image: url('images/mole-hit.jpg');
+    background-size: cover;
+}
+
+
