@@ -1,5 +1,4 @@
 const squares = document.querySelectorAll('.square')
-// const mole = document.querySelector('.mole')
 const timeLeftDisplay = document.querySelector('#time-left')
 const scoreDisplay = document.querySelector('#score')
 
@@ -14,15 +13,11 @@ function moleRandomPosition() {
         squares.forEach(square => {
             if (square.classList.contains('mole')) {
                 square.classList.remove('mole')
-
-
             }
 
             if (square.classList.contains('hit-mole')) {
                 square.classList.remove('hit-mole')
             }
-
-
         }
         )
 
@@ -39,7 +34,8 @@ function returnMoleImg() {
 
 squares.forEach(square => {
     square.addEventListener('mousedown', () => {
-        if (square.id == molePositionId) {
+        if (square.id == molePositionId &&
+            timeLeft > 0) {
             score += 1
             scoreDisplay.innerHTML = score
             square.classList.add('hit-mole')
@@ -58,13 +54,22 @@ moveTheMole()
 
 function countDown() {
     if (!isPaused) {
-        timeLeft--
         timeLeftDisplay.textContent = timeLeft
+        timeLeft--
 
-        if (timeLeft < 1) {
+        if (timeLeft < 0) {
             clearInterval(countDownTimerId)
             clearInterval(timeId)
             alert('GAME OVER! Your final result is: ' + score)
+            squares.forEach(square => {
+                if (square.classList.contains('mole')) {
+                    square.classList.remove('mole')
+                }
+                if (square.classList.contains('hit-mole')) {
+                    square.classList.remove('hit-mole')
+                }
+            }
+            )
         }
     }
 }
