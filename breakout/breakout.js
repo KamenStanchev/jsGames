@@ -55,7 +55,7 @@ const blocks = [
     new Block(450, 210),
 ]
 
-console.log(blocks[2])
+
 
 //draw all blocks
 function addBlocks() {
@@ -122,14 +122,15 @@ function moveBall() {
     xBallAxis += xStepDirection
     yBallAxis += yStepDirection
     drawBall()
-    checkWallCollisions()
+    checkForCollisions()
 }
 
 ballMoveTimerId = setInterval(moveBall, 10)
 
 
-//check for collisions with wall
-function checkWallCollisions() {
+function checkForCollisions() {
+
+    //check for collisions with wall
     if (yBallAxis >= gridHeight - ballDiameter) {
         changeDirection('upHitBarrier')
     }
@@ -139,16 +140,42 @@ function checkWallCollisions() {
     if (xBallAxis <= 0) {
         changeDirection('leftHitBarrier')
     }
+
+    //check for collision with user
     if (yBallAxis == userYAxis + userHeight &&
         xBallAxis >= userCurrentPosition &&
         xBallAxis <= userCurrentPosition + userWidth) {
         changeDirection('downHitBarrier')
     }
 
+    //check for GAME OVER, cause collision with floor
     if (yBallAxis < 1) {
         clearInterval(ballMoveTimerId)
         document.removeEventListener('keydown', moveUser)
         alert('GAME OVER!')
+    }
+
+    //check for collision with block
+    let ballLeftBottom = [xBallAxis, yBallAxis]
+    let ballRightBottom = [xBallAxis + ballDiameter, yBallAxis]
+    let ballLeftTop = [xBallAxis, yBallAxis + ballDiameter]
+    let ballRightTop = [xBallAxis + ballDiameter, yBallAxis + ballDiameter]
+
+    for (let i = 0; i < blocks.length; i++) {
+        let currentBlock = blocks[i]
+        if (ballLeftTop[1] == currentBlock.bottomLeft[1] &&
+            ((ballLeftTop[0] >= currentBlock.bottomLeft[0] &&
+                ballLeftTop[0] <= currentBlock.bottomRight[0]) ||
+                (ballRightTop[0] <= currentBlock.bottomRight[0] &&
+                    ballRightTop[0] >= currentBlock.bottomLeft[0]))) {
+            console.log(currentBlock)
+            changeDirection('upHitBarrier')
+            // const allBlocks = Array.from(document.querySelectorAll('block'))
+            // allBlocks[i].classList.remove('block')
+            // blocks.splice(i, 1)
+
+        }
+
     }
 
 }
