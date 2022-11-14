@@ -1,17 +1,21 @@
 //grid variables
 const grid = document.querySelector('.grid')
 const gridWidth = 560
+const gridHeight = 300
 
-//block variables
+//blocks variables
 const blockWidth = 100
 const blockHeight = 20
-//user variables
 
+//user variables
 const userXAxis = 230
 const userYAxis = 10
+const userWidth = 100
+const userHeight = 15
 let userCurrentPosition = userXAxis
 
 //ball variables
+const ballDiameter = 20
 const ballStartPosition = [275, 30]
 let xBallAxis = ballStartPosition[0]
 let yBallAxis = ballStartPosition[1]
@@ -118,12 +122,62 @@ function moveBall() {
     xBallAxis += xStepDirection
     yBallAxis += yStepDirection
     drawBall()
+    checkWallCollisions()
 }
 
-ballMoveTimerId = setInterval(moveBall, 16)
+ballMoveTimerId = setInterval(moveBall, 10)
 
 
-//check for collisions
+//check for collisions with wall
+function checkWallCollisions() {
+    if (yBallAxis >= gridHeight - ballDiameter) {
+        changeDirection('upHitBarrier')
+    }
+    if (xBallAxis >= gridWidth - ballDiameter) {
+        changeDirection('rightHitBarrier')
+    }
+    if (xBallAxis <= 0) {
+        changeDirection('leftHitBarrier')
+    }
+    if (yBallAxis == userYAxis + userHeight &&
+        xBallAxis >= userCurrentPosition &&
+        xBallAxis <= userCurrentPosition + userWidth) {
+        changeDirection('downHitBarrier')
+    }
+
+    if (yBallAxis < 1) {
+        clearInterval(ballMoveTimerId)
+        document.removeEventListener('keydown', moveUser)
+        alert('GAME OVER!')
+    }
+
+}
+
+
+//change direction
+function changeDirection(hitBarrierFrom) {
+    switch (hitBarrierFrom) {
+        case 'upHitBarrier':
+            yStepDirection = -1
+            break
+        case 'downHitBarrier':
+            yStepDirection = 1
+            break
+        case 'rightHitBarrier':
+            xStepDirection = -1
+            break
+        case 'leftHitBarrier':
+            xStepDirection = 1
+            break
+    }
+
+
+    // if (xStepDirection === 1 && yStepDirection === 1) {
+    //     if (hitBarrierFrom == 'up') {
+    //         yStepDirection = -1
+    //     }
+    // }
+}
 
 
 
