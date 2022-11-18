@@ -125,7 +125,7 @@ function moveBall() {
     checkForCollisions()
 }
 
-ballMoveTimerId = setInterval(moveBall, 10)
+ballMoveTimerId = setInterval(moveBall, 20)
 
 
 function checkForCollisions() {
@@ -141,19 +141,29 @@ function checkForCollisions() {
         changeDirection('leftHitBarrier')
     }
 
-    //check for collision with user
+    //check for collision with user left side
     if (yBallAxis == userYAxis + userHeight &&
-        xBallAxis >= userCurrentPosition &&
+        xBallAxis + ballDiameter >= userCurrentPosition &&
+        xBallAxis <= userCurrentPosition + userWidth / 2) {
+        xStepDirection = -1
+        yStepDirection = 1
+    }
+    //check for collision with user right side
+    if (yBallAxis == userYAxis + userHeight &&
+        xBallAxis + ballDiameter > userCurrentPosition + userWidth / 2 &&
         xBallAxis <= userCurrentPosition + userWidth) {
-        changeDirection('downHitBarrier')
+        xStepDirection = 1
+        yStepDirection = 1
     }
 
     //check for GAME OVER, cause collision with floor
     if (yBallAxis < 1) {
         clearInterval(ballMoveTimerId)
         document.removeEventListener('keydown', moveUser)
-        alert('GAME OVER!')
+        alert('GAME OVER! You LOSE!')
     }
+
+
 
     //check for collision with block
     let ballLeftBottom = [xBallAxis, yBallAxis]
@@ -163,22 +173,67 @@ function checkForCollisions() {
 
     for (let i = 0; i < blocks.length; i++) {
         let currentBlock = blocks[i]
+        //check for collision with downside of the block
         if (ballLeftTop[1] == currentBlock.bottomLeft[1] &&
             ((ballLeftTop[0] >= currentBlock.bottomLeft[0] &&
                 ballLeftTop[0] <= currentBlock.bottomRight[0]) ||
                 (ballRightTop[0] <= currentBlock.bottomRight[0] &&
                     ballRightTop[0] >= currentBlock.bottomLeft[0]))) {
-            console.log(currentBlock)
             changeDirection('upHitBarrier')
-            // const allBlocks = Array.from(document.querySelectorAll('block'))
-            // allBlocks[i].classList.remove('block')
-            // blocks.splice(i, 1)
-
+            removeBlock(i)
         }
+        //check for collision with upside of the block
+        if (ballLeftBottom[1] == currentBlock.TopLeft[1] &&
+            ((ballLeftBottom[0] >= currentBlock.TopLeft[0] &&
+                ballLeftBottom[0] <= currentBlock.TopRight[0]) ||
+                (ballRightBottom[0] <= currentBlock.TopRight[0] &&
+                    ballRightBottom[0] >= currentBlock.TopLeft[0]))) {
+            changeDirection('downHitBarrier')
+            removeBlock(i)
+        }
+        //check for collision with left-side of the block
+        if (ballRightBottom[0] == currentBlock.bottomLeft[0] &&
+            ((ballRightBottom[1] >= currentBlock.bottomLeft[1] &&
+                ballRightBottom[1] <= currentBlock.TopLeft[1]) ||
+                (ballRightTop[1] >= currentBlock.bottomLeft[1] &&
+                    ballRightTop[1] <= currentBlock.TopLeft[1]))) {
+            changeDirection('rightHitBarrier')
+            removeBlock(i)
+        }
+        //check for collision with right-side of the block
+        if (ballLeftBottom[0] == currentBlock.bottomRight[0] &&
+            ((ballLeftBottom[1] >= currentBlock.bottomRight[1] &&
+                ballLeftTop[1] <= currentBlock.TopRight[1]) ||
+                (ballLeftTop[1] >= currentBlock.bottomRight[1] &&
+                    ballLeftTop[1] <= currentBlock.TopRight[1]))) {
+            changeDirection('leftHitBarrier')
+            removeBlock(i)
+        }
+
+
 
     }
 
 }
+
+//remove broken block
+function removeBlock(i) {
+    const allBlocks = Array.from(document.querySelectorAll('.block'))
+    allBlocks[i].classList.remove('block')
+    blocks.splice(i, 1)
+    checkIsAnyBlock(blocks)
+}
+
+
+//check for GAME OVER, cause no any block
+function checkIsAnyBlock(blocks) {
+    if (blocks.length <= 0) {
+        clearInterval(ballMoveTimerId)
+        document.removeEventListener('keydown', moveUser)
+        alert('GAME OVER! You WIN!')
+    }
+}
+
 
 
 //change direction
@@ -197,13 +252,6 @@ function changeDirection(hitBarrierFrom) {
             xStepDirection = 1
             break
     }
-
-
-    // if (xStepDirection === 1 && yStepDirection === 1) {
-    //     if (hitBarrierFrom == 'up') {
-    //         yStepDirection = -1
-    //     }
-    // }
 }
 
 
