@@ -40,6 +40,7 @@ function moveFrog(e) {
     }
     squares[frogCurrentIndex].classList.add('frog')
     lose()
+    win()
 
 }
 
@@ -53,6 +54,7 @@ function autoMoveElements() {
     carsLeft.forEach(carLeft => moveCarLeft(carLeft))
     carsRight.forEach(carRight => moveCarRight(carRight))
     lose()
+    win()
 }
 
 //move the logs
@@ -176,7 +178,12 @@ function moveCarRight(carRight) {
 
 //check for game over with LOSE
 function lose() {
-    if (squares[frogCurrentIndex].classList.contains('c7')) {
+    if (squares[frogCurrentIndex].classList.contains('c5') ||
+        squares[frogCurrentIndex].classList.contains('c6') ||
+        squares[frogCurrentIndex].classList.contains('c6') ||
+        squares[frogCurrentIndex].classList.contains('l4') ||
+        squares[frogCurrentIndex].classList.contains('l5')
+    ) {
         resultDisplay.innerHTML = 'You LOSE!'
         clearInterval(timerId)
         document.removeEventListener('keyup', moveFrog)
@@ -185,4 +192,14 @@ function lose() {
     }
 }
 
-timerId = setInterval(autoMoveElements, 1000)
+function win() {
+    if (squares[frogCurrentIndex].classList.contains('finish-block')) {
+        resultDisplay.innerHTML = 'You WIN!'
+        clearInterval(timerId)
+        document.removeEventListener('keyup', moveFrog)
+        squares[frogCurrentIndex].classList.remove('frog')
+        squares[frogCurrentIndex].classList.add('win')
+    }
+}
+
+timerId = setInterval(autoMoveElements, 1000).
