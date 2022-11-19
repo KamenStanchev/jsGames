@@ -156,7 +156,7 @@ function checkForCollisions() {
         yStepDirection = 1
     }
 
-    //check for GAME OVER, cause collision with floor
+    //check for LOSE, cause collision with floor
     if (yBallAxis < 1) {
         clearInterval(ballMoveTimerId)
         document.removeEventListener('keydown', moveUser)
@@ -225,7 +225,7 @@ function removeBlock(i) {
 }
 
 
-//check for GAME OVER, cause no any block
+//check for WIN, cause no any block
 function checkIsAnyBlock(blocks) {
     if (blocks.length <= 0) {
         clearInterval(ballMoveTimerId)

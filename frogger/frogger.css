@@ -1,0 +1,65 @@
+html, body     {
+    height: auto;
+}
+
+body{
+    background-color: goldenrod;
+}
+
+.grid{
+    display: flex;
+    flex-wrap: wrap;
+    width: 180px;
+    height: 180px;
+    background-color: bisque;
+    border: black 1px solid;
+}
+
+.grid div{
+    height: 20px;
+    width: 20px;
+}
+
+.finish-block{
+    background-color: red;
+}
+
+.start-block{
+    background-color: blue;
+}
+
+/* .log-left,
+.log-right {
+    background-color: rgb(132, 181, 241);
+} */
+
+.l1, .l2, .l3{
+    background-color: rgb(111, 27, 27);
+}
+
+.l4, .l5{
+    background-color:  rgb(132, 181, 241);
+}
+
+/* .car-left,
+.car-right {
+    background-color: rgb(196, 189, 189);
+} */
+
+.c1, .c2, .c3, .c4{
+    background-color: bisque;
+}
+.c5, .c6, .c7{
+    background-color: blue;
+}
+
+.frog {
+    background-color: green;
+}
+
+.end{
+    background-image: url('images/end.webp');
+    background-color: #ffffff;
+    background-size: 20px 20px;
+
+}
