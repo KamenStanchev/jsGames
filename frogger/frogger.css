@@ -20,6 +20,28 @@ body {
   border: black 1px solid;
 }
 
+#result {
+  font-weight: bolder;
+}
+
+#start-pause-button,
+#new-game {
+  background-color: lightseagreen;
+  box-shadow: 5px 5px 5px black;
+  border: black 1px solid;
+  border-radius: 3px;
+  padding: 0%;
+  height: 20px;
+  width: 48px;
+}
+
+#start-pause-button:hover,
+#new-game:hover {
+  background-color: darkgreen;
+  color: #ffffff;
+  transition: 0.7s;
+}
+
 .grid div {
   height: 20px;
   width: 20px;

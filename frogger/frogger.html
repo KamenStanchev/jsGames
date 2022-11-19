@@ -9,9 +9,14 @@
   </head>
   <body>
     <h4>Seconds left: <span id="seconds-left">20</span></h4>
-    <h4>Result: <span id="result">0</span></h4>
 
-    <button id="start-pause-button">Start/Pause</button><br /><br />
+    <div class="button-container">
+      <button id="start-pause-button">
+        <span id="start-pause-btn-display">Pause</span>
+      </button>
+      <button id="new-game">New</button>
+    </div>
+    <br /><br />
 
     <div class="grid">
       <div></div>
@@ -104,6 +109,8 @@
       <div></div>
       <div></div>
     </div>
+
+    <h1 id="result"></h1>
 
     <script src="frogger.js"></script>
   </body>

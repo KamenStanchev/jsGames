@@ -1,5 +1,7 @@
-const timeLeftDisplay = document.querySelector('#time-left')
+const timeLeftDisplay = document.querySelector('#seconds-left')
 const resultDisplay = document.querySelector('#result')
+const startPauseBtnDisplay = document.querySelector('#start-pause-btn-display')
+const newGameButton = document.querySelector('#new-game')
 const startPauseButton = document.querySelector('#start-pause-button')
 const squares = document.querySelectorAll('.grid div')
 const gridWidth = 9
@@ -11,6 +13,7 @@ const carsLeft = document.querySelectorAll('.car-left')
 const carsRight = document.querySelectorAll('.car-right')
 
 let frogCurrentIndex = 76
+let timeLeft = 20
 let timerId
 let loseTimerId
 
@@ -18,8 +21,8 @@ let loseTimerId
 
 // move the frog and check is next step inside the grid
 function moveFrog(e) {
-    squares[frogCurrentIndex].classList.remove('frog')
 
+    squares[frogCurrentIndex].classList.remove('frog')
     switch (e.key) {
         case 'ArrowLeft':
             if (frogCurrentIndex % gridWidth !== 0)
@@ -55,6 +58,7 @@ function autoMoveElements() {
     carsRight.forEach(carRight => moveCarRight(carRight))
     lose()
     win()
+    time()
 }
 
 //move the logs
@@ -202,4 +206,38 @@ function win() {
     }
 }
 
-timerId = setInterval(autoMoveElements, 1000).
+function time() {
+    timeLeft--
+    timeLeftDisplay.innerHTML = timeLeft
+    if (timeLeft == 0) {
+        gameOver()
+    }
+}
+
+function gameOver() {
+    resultDisplay.innerHTML = 'You LOSE!'
+    clearInterval(timerId)
+    document.removeEventListener('keyup', moveFrog)
+    squares[frogCurrentIndex].classList.remove('frog')
+    squares[frogCurrentIndex].classList.add('end')
+}
+
+startPauseButton.addEventListener('click', () => {
+    if (timerId) {
+        clearInterval(timerId)
+        timerId = null
+        document.removeEventListener('keyup', moveFrog)
+        startPauseBtnDisplay.innerHTML = 'Start'
+    }
+    else {
+        document.addEventListener('keyup', moveFrog)
+        timerId = setInterval(autoMoveElements, 1000)
+        startPauseBtnDisplay.innerHTML = 'Pause'
+    }
+})
+
+newGameButton.addEventListener('click', () => {
+    document.location.reload()
+})
+
+timerId = setInterval(autoMoveElements, 1000)
