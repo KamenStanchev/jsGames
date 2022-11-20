@@ -12,6 +12,11 @@ document.addEventListener('DOMContentLoaded', () => {
         let winner = 'Player One'
         if (players[currentPlayer - 1] == 'player-two') { winner = 'Player Two' }
         displayResult.innerHTML = 'Winner is ' + winner + ' !!!'
+        for (let i = 0; i < boardSize * boardSize; i++) {
+            squares[i].onclick = () => {
+
+            }
+        }
     }
 
     //check board for 4 connected squares
@@ -203,7 +208,7 @@ document.addEventListener('DOMContentLoaded', () => {
         }
 
     }
-    for (let i = 0; i < squares.length; i++) {
+    for (let i = 0; i < boardSize * boardSize; i++) {
         squares[i].onclick = () => {
             if (squares[i + 7].classList.contains('taken') &&
                 !squares[i].classList.contains('taken')) {
