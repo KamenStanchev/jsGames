@@ -1,0 +1,42 @@
+body {
+  background-color: black;
+  color: white;
+}
+
+.result {
+  position: absolute;
+  top: 130px;
+  width: 300px;
+  text-align: center;
+}
+
+.grid {
+  width: 300px;
+  height: 300px;
+  border: white 1px solid;
+  display: flex;
+  flex-wrap: wrap;
+}
+
+.grid div {
+  width: 20px;
+  height: 20px;
+}
+
+.invader {
+  border-radius: 50%;
+  background-color: blueviolet;
+}
+
+.shooter {
+  border-top: white 4px solid;
+  background-color: blue;
+}
+
+.bullet {
+  background-color: white;
+}
+
+.boom {
+  background-color: red;
+}
