@@ -2,10 +2,12 @@ const grid = document.querySelector('.grid')
 const gridWidth = 15
 const displayResult = document.querySelector('.result')
 const displayScore = document.querySelector('.score')
+const displayUsedBullets = document.querySelector('.used-bullets')
 let shooterIndex = 218
 let direction = 1
 let intervalMoveInvadersID
 let invadersRemoved = []
+let usedBullets = 0
 
 
 for (let i = 0; i < 225; i++) {
@@ -24,7 +26,13 @@ const spaceInvaders = [
 //DRAW all invaders in the grid
 function draw() {
     for (let i = 0; i < spaceInvaders.length; i++) {
-        squares[spaceInvaders[i]].classList.add('invader')
+
+        if (!invadersRemoved.includes(i)) {
+            squares[spaceInvaders[i]].classList.add('invader')
+        }
+        // else {
+        //     squares[spaceInvaders[i]].classList.add('cell')
+        // }
     }
 }
 
@@ -34,6 +42,7 @@ draw()
 function removeInvaders() {
     for (let i = 0; i < spaceInvaders.length; i++) {
         squares[spaceInvaders[i]].classList.remove('invader')
+        // squares[spaceInvaders[i]].classList.remove('cell')
     }
 }
 
@@ -95,12 +104,23 @@ function moveInvaders() {
 
     //check is some invader rich the bottom
     for (let i = 0; i < spaceInvaders.length; i++) {
-        if (spaceInvaders[i] > (squares.length - gridWidth)
+        if (spaceInvaders[i] > (squares.length - gridWidth) &&
+            squares[spaceInvaders[i]].classList.contains('invader')
         ) {
             clearInterval(intervalMoveInvadersID)
             displayResult.innerHTML = 'GAME OVER. YOU HAVE BEEN KILLED'
             document.removeEventListener('keydown', moveShooter)
+            break
         }
+    }
+
+    //check for win when there are NOT any invaders
+    if (invadersRemoved.length === spaceInvaders.length) {
+        clearInterval(intervalMoveInvadersID)
+
+        displayResult.innerHTML = 'YOU WIN!'
+        document.removeEventListener('keydown', moveShooter)
+        document.removeEventListener('keydown', shooting)
     }
 
 }
@@ -113,12 +133,15 @@ intervalMoveInvadersID = setInterval(moveInvaders, 500)
 function shooting(e) {
     let bulletId
     let bulletIndex = shooterIndex
+    usedBullets++
+    displayUsedBullets.innerHTML = usedBullets
 
     //move bullet 
     function moveBullet() {
         squares[bulletIndex].classList.remove('bullet')
         bulletIndex -= gridWidth
         squares[bulletIndex].classList.add('bullet')
+
 
         if (squares[bulletIndex].classList.contains('invader')) {
             squares[bulletIndex].classList.remove('bullet')
@@ -131,8 +154,10 @@ function shooting(e) {
             const invaderRemoved = spaceInvaders.indexOf(bulletIndex)
             invadersRemoved.push(invaderRemoved)
             displayScore.innerHTML = invadersRemoved.length
-
-
+        }
+        if (bulletIndex < (gridWidth - 1)) {
+            clearInterval(bulletId)
+            setTimeout(() => squares[bulletIndex].classList.remove('bullet'), 300)
         }
     }
 
